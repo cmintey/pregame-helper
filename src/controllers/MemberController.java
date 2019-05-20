@@ -8,6 +8,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import models.Marcher;
 
 public class MemberController {
 
@@ -29,23 +30,28 @@ public class MemberController {
     @FXML
     private Button btnUpdate;
 
+    private Marcher marcher;
+
     @FXML
-    void initData(String name, String part, String year, String spots){
-        memberName.setText(name);
-        txtPart.setText(part);
-        txtYear.setText(year);
-        txtSpots.setText(spots);
+    void initData(Marcher marcher){
+        this.marcher = marcher;
+        memberName.setText(marcher.getName());
+        txtPart.setText(marcher.getPart());
+        txtYear.setText(marcher.getYear());
+        txtSpots.setText(marcher.getSpots());
         try{
-            memberPic.setImage(new Image(String.format("/resources/%s.jpg", name)));
+            memberPic.setImage(new Image(String.format("/resources/%s.jpg", marcher.getName())));
         } catch (IllegalArgumentException e){
-            System.out.println("Image not found!");
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
     void updateMember(ActionEvent event) {
         if (event.getSource() == btnUpdate){
-            System.out.println("Updated!");
+            this.marcher.setPart(txtPart.getText());
+            this.marcher.setYear(txtYear.getText());
+            this.marcher.setSpots(txtSpots.getText());
         }
     }
 

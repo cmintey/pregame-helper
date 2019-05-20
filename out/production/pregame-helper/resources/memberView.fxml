@@ -27,13 +27,13 @@
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtPart" layoutX="59.0" layoutY="34.0" text="2" />
+                  <TextField fx:id="txtYear" layoutX="59.0" layoutY="34.0" text="2" />
                   <Label layoutX="15.0" layoutY="66.0" text="Year:">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtYear" layoutX="59.0" layoutY="66.0" text="3" />
+                  <TextField fx:id="txtPart" layoutX="59.0" layoutY="66.0" text="3" />
                   <Label layoutX="15.0" layoutY="103.0" prefHeight="26.0" prefWidth="99.0" text="Spots Held:" wrapText="true">
                      <font>
                         <Font size="17.0" />

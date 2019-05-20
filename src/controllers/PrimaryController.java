@@ -6,13 +6,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.FocusModel;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
+import models.Marcher;
+import utils.DataHandler;
+import utils.MarcherCellFactory;
 import java.io.IOException;
 
 public class PrimaryController {
@@ -27,7 +26,7 @@ public class PrimaryController {
     private MenuItem btnQuit;
 
     @FXML
-    private ListView<String> memberListView;
+    private ListView<Marcher> memberListView;
 
     @FXML
     private MenuItem btnProfile;
@@ -35,23 +34,40 @@ public class PrimaryController {
     @FXML
     private ImageView imgBlockM;
 
+    private boolean isSaved;
+    private DataHandler data;
+
 
     public void initialize(){
-        ObservableList<String> names = FXCollections.observableArrayList(
-                "Carter Mintey", "Julia Moseman", "Keenan Perera", "Jackson Hillmann",
-                "Austin Duffy", "Alec Johnson", "Dylan Stobart", "Vannesa Robbins", "Nathan Noma"
-        );
-        memberListView.setItems(names);
+        this.isSaved = true;
+        data = new DataHandler();
+        data.importData("C:/Users/carte/projects/pregame-helper/src/resources/trumpets.csv");
+
+        // ObservableList will detect changed and update the list accordingly
+        ObservableList<Marcher> trumpets = FXCollections.observableArrayList(data.getData());
+
+        // Change cellFactory so we can see the names of the Marcher objects
+        memberListView.setCellFactory(new MarcherCellFactory());
+        memberListView.setItems(trumpets);
     }
 
     @FXML
     void quitApp(ActionEvent event) {
-
+        if (event.getSource() == btnQuit){
+            if (isSaved){
+                System.exit(0);
+            }
+            else{
+                //TODO: Implement warning if user has not saved data
+            }
+        }
     }
 
     @FXML
     void save(ActionEvent event) {
-
+        if (event.getSource() == btnSave){
+            data.exportData("C:/Users/carte/projects/pregame-helper/src/resources/trumpets1.csv");
+        }
     }
 
     @FXML
@@ -62,13 +78,13 @@ public class PrimaryController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/memberView.fxml"));
 
             // get the focused member from the list
-            FocusModel<String> fModel = memberListView.getFocusModel();
-            String member = fModel.getFocusedItem();
+            FocusModel<Marcher> fModel = memberListView.getFocusModel();
+            Marcher member = fModel.getFocusedItem();
 
             // load the scene and initialize the controller data
             memberStage.setScene(new Scene(loader.load()));
             MemberController memberController = loader.getController();
-            memberController.initData(member, "2", "2", "43, 22");
+            memberController.initData(member);
 
             // set the title and show the stage
             memberStage.setTitle(String.format("%s's Details", member));
