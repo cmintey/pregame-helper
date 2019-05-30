@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,7 +18,12 @@
       <menus>
         <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
           <items>
+                  <MenuItem fx:id="btnNew" mnemonicParsing="false" onAction="#createNew" text="New" />
+                  <MenuItem fx:id="btnOpen" mnemonicParsing="false" onAction="#open" text="Open..." />
+                  <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="btnSave" mnemonicParsing="false" onAction="#save" text="Save" />
+                  <MenuItem fx:id="btnSaveAs" mnemonicParsing="false" onAction="#saveAs" text="Save As..." />
+                  <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="btnQuit" mnemonicParsing="false" onAction="#quitApp" text="Quit" />
           </items>
         </Menu>
@@ -29,18 +35,18 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="373.0" prefWidth="210.0">
                      <children>
-                        <ListView fx:id="memberListView" prefHeight="373.2" prefWidth="188.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ListView fx:id="memberListView" onMouseClicked="#perfClicked" prefHeight="373.2" prefWidth="188.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <contextMenu>
                               <ContextMenu>
                                 <items>
-                                  <MenuItem fx:id="btnProfile" mnemonicParsing="false" onAction="#viewProfile" text="View Profile" />
+                                  <MenuItem fx:id="btnProfile" mnemonicParsing="false" onAction="#perfRightClick" text="View Profile" />
                                 </items>
                               </ContextMenu>
                            </contextMenu>
                         </ListView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane>
+                  <AnchorPane style="-fx-background-color: #FFFFFF;">
                       <children>
                           <ImageView fx:id="imgBlockM" fitHeight="743.0" fitWidth="803.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                               <image>

@@ -2,7 +2,7 @@
 *.class
 
 # Intellij idea
-.idea/
+/.idea
 
 # Log file
 *.log

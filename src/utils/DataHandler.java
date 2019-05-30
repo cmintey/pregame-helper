@@ -1,5 +1,7 @@
 package utils;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import models.Marcher;
 
 import java.io.*;
@@ -7,65 +9,73 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class DataHandler {
+public class DataHandler<T> {
 
-    private List<Marcher> dataList;
+    private ObservableList<T> data;
 
     public DataHandler(){
-        dataList = new ArrayList<>();
+        data = FXCollections.observableArrayList();
     }
 
-    private void addElement(Marcher e){
-        dataList.add(e);
+    public DataHandler(File file){
+        data = FXCollections.observableArrayList();
+        importData(file);
     }
 
-    public List<Marcher> getData(){
-        return dataList;
+    public void addElement(T e){
+        data.add(e);
     }
 
+    public void removeElement(T e){
+        data.remove(e);
+    }
 
-    public void importData(String dataFile){
-        try{
-            Scanner scanner = new Scanner(new File(dataFile));
+    public ObservableList<T> getData(){
+        return data;
+    }
 
-            String line;
-            while(scanner.hasNextLine()){
-                line = scanner.nextLine();
-                String[] sarr = line.strip().split(",");
-                if (sarr.length == 4){
-                    this.addElement(new Marcher(sarr[0],sarr[1],sarr[2],sarr[3]));
-                }
-                else if (sarr.length == 6){
-                    this.addElement(new Marcher(sarr[0],sarr[1],sarr[2],sarr[3],
-                            Integer.parseInt(sarr[4]),Integer.parseInt(sarr[5])));
-                }
-                else{
-                    System.out.println(String.format("Invalid format: %s", line));
+    public void importData(ObservableList<T> lst){
+        data.addAll(lst);
+    }
+
+    public void importData(File file) {
+        try {
+            FileInputStream fin = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(fin);
+            int len = in.readInt();
+            for (int i = 0; i < len; i++){
+                try {
+                    T el = (T) in.readObject();
+                    addElement(el);
+                } catch (ClassNotFoundException e){
+                    e.getException();
                 }
             }
-            scanner.close();
-        } catch (FileNotFoundException e){
+            fin.close();
+            in.close();
+
+        } catch (IOException e){
             System.out.println(e.getMessage());
         }
+
     }
 
-    public void exportData(String dataFile){
+    public void exportData(File file){
         try {
-            //URL url = getClass().getResource(dataFile);
-            FileWriter writer = new FileWriter(new File(dataFile));
+            FileOutputStream fout = new FileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fout);
+            out.writeInt(data.size());
+            for (T el : data){
+                out.writeObject(el);
+            }
+            out.flush();
+            fout.close();
+            out.close();
 
-            dataList.forEach(m -> {
-                try{
-                    writer.append(m.asCSV());
-                    writer.append("\n");
-                } catch (IOException e){
-                    e.printStackTrace();
-                }
-            });
-            writer.close();
-
-        } catch (IOException e) {
+        } catch (IOException e){
             System.out.println(e.getMessage());
         }
+        System.out.println(String.format("Exported to %s",file.getAbsolutePath()));
     }
+
 }
