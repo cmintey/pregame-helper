@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -19,9 +21,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class PrimaryController {
-
-    @FXML
-    private Menu fileMenu;
 
     @FXML
     private MenuItem btnNew;
@@ -39,13 +38,19 @@ public class PrimaryController {
     private MenuItem btnQuit;
 
     @FXML
+    private MenuItem btnMenuNewMarcher;
+
+    @FXML
     private ListView<Marcher> memberListView;
 
     @FXML
     private MenuItem btnProfile;
 
     @FXML
-    private ImageView imgBlockM;
+    private MenuItem btnNewMarcher;
+
+    @FXML
+    private MenuItem btnDeleteMarcher;
 
     private boolean isSaved;
     private DataHandler<Marcher> data;
@@ -72,6 +77,8 @@ public class PrimaryController {
     void createNew(ActionEvent event) {
         if (event.getSource() == btnNew){
             //TODO: make add profile button
+            //TODO: ask if they want to save before
+            //TODO: reset list
         }
 
     }
@@ -86,6 +93,7 @@ public class PrimaryController {
             FileChooser fc = new FileChooser();
             fc.setTitle("Open a file");
             fc.setInitialDirectory(new File("/home/cmintey/pregame-helper/src/resources"));
+            fc.setInitialFileName("trumpets.dat");
             File selectedFile = fc.showOpenDialog(fileStage);
 
             if (selectedFile != null){
@@ -135,9 +143,17 @@ public class PrimaryController {
     }
 
     @FXML
-    void perfRightClick(ActionEvent event) {
+    void btnAction(ActionEvent event) {
         if(event.getSource() == btnProfile){
-            viewProfile();
+            // get the focused member from the list
+            viewProfile(memberListView.getFocusModel().getFocusedItem());
+        }
+        else if(event.getSource() == btnNewMarcher || event.getSource() == btnMenuNewMarcher){
+            Marcher newMarcher = createMarcher();
+            viewProfile(newMarcher);
+        }
+        else if(event.getSource() == btnDeleteMarcher){
+            deleteMarcher(memberListView.getFocusModel().getFocusedItem());
         }
     }
 
@@ -145,26 +161,47 @@ public class PrimaryController {
     void perfClicked(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY &&
         event.getClickCount() == 2){
-            viewProfile();
+            // get the focused member from the list
+            viewProfile(memberListView.getFocusModel().getFocusedItem());
         }
     }
 
-    void viewProfile() {
+    @FXML
+    void actionDelete(KeyEvent event){
+        if (event.getCode() == KeyCode.DELETE){
+            deleteMarcher(memberListView.getFocusModel().getFocusedItem());
+        }
+    }
+
+    Marcher createMarcher(){
+        Marcher newMarcher = new Marcher("test","2","3","");
+        data.addElement(newMarcher);
+        memberListView.setItems(data.getData());
+        memberListView.refresh();
+        return newMarcher;
+
+    }
+
+    void deleteMarcher(Marcher marcher){
+        data.removeElement(marcher);
+        memberListView.refresh();
+    }
+
+    void viewProfile(Marcher marcher) {
         Stage memberStage = new Stage();
         // get an instance of the loader
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/memberView.fxml"));
 
-        // get the focused member from the list
-        Marcher member = memberListView.getFocusModel().getFocusedItem();
+
 
         // load the scene and initialize the controller data
         try {
             memberStage.setScene(new Scene(loader.load()));
             MemberController memberController = loader.getController();
-            memberController.initData(member);
+            memberController.initData(marcher);
 
             // set the title and show the stage
-            memberStage.setTitle(String.format("%s's Details", member));
+            memberStage.setTitle(String.format("%s's Details", marcher));
             memberStage.show();
         } catch (IOException e) {
             e.printStackTrace();

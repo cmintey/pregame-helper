@@ -12,6 +12,11 @@ public class Marcher implements Serializable {
     private int primarySpot;
     private int secondarySpot;
 
+    public Marcher(){
+        new Marcher("","","","");
+
+    }
+
     public Marcher(String name, String year, String part, String spots){
         this.name = name;
         this.year = year;

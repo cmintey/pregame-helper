@@ -11,6 +11,9 @@ public class MarcherCell extends ListCell<Marcher>{
         if (item != null){
             this.setText(item.getName());
         }
-        setGraphic(null);
+        else {
+            setGraphic(null);
+            setText(null);
+        }
     }
 }

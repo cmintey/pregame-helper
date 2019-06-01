@@ -35,11 +35,14 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="373.0" prefWidth="210.0">
                      <children>
-                        <ListView fx:id="memberListView" onMouseClicked="#perfClicked" prefHeight="373.2" prefWidth="188.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ListView fx:id="memberListView" onKeyPressed="#actionDelete" onMouseClicked="#perfClicked" prefHeight="373.2" prefWidth="188.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <contextMenu>
                               <ContextMenu>
                                 <items>
-                                  <MenuItem fx:id="btnProfile" mnemonicParsing="false" onAction="#perfRightClick" text="View Profile" />
+                                    <MenuItem fx:id="btnProfile" mnemonicParsing="false" onAction="#perfRightClick" text="View Profile" />
+                                    <SeparatorMenuItem mnemonicParsing="false" />
+                                    <MenuItem fx:id="btnNewMarcher" mnemonicParsing="false" onAction="#perfRightClick" text="New Marcher" />
+                                    <MenuItem fx:id="btnDeleteMarcher" mnemonicParsing="false" onAction="#perfRightClick" text="Delete Marcher" />
                                 </items>
                               </ContextMenu>
                            </contextMenu>
