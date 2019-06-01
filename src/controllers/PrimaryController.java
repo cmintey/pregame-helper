@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -63,6 +62,7 @@ public class PrimaryController {
         //old_data = new LegacyData();
         //old_data.importData("/home/cmintey/pregame-helper/src/resources/trumpets.csv");
         data = new DataHandler<>();
+        data.importData(new File("/home/cmintey/pregame-helper/data/trumpets.dat"));
         //data.importData("/home/cmintey/pregame-helper/src/resources/trumpets.dat");
         //data.importData(old_data.getData());
         //data.exportData("/home/cmintey/pregame-helper/src/resources/trumpets.dat");
@@ -92,7 +92,7 @@ public class PrimaryController {
             // set up file chooser
             FileChooser fc = new FileChooser();
             fc.setTitle("Open a file");
-            fc.setInitialDirectory(new File("/home/cmintey/pregame-helper/src/resources"));
+            fc.setInitialDirectory(new File("/home/cmintey/pregame-helper/data"));
             fc.setInitialFileName("trumpets.dat");
             File selectedFile = fc.showOpenDialog(fileStage);
 
@@ -174,7 +174,7 @@ public class PrimaryController {
     }
 
     Marcher createMarcher(){
-        Marcher newMarcher = new Marcher("test","2","3","");
+        Marcher newMarcher = new Marcher();
         data.addElement(newMarcher);
         memberListView.setItems(data.getData());
         memberListView.refresh();
@@ -192,13 +192,11 @@ public class PrimaryController {
         // get an instance of the loader
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/memberView.fxml"));
 
-
-
         // load the scene and initialize the controller data
         try {
             memberStage.setScene(new Scene(loader.load()));
             MemberController memberController = loader.getController();
-            memberController.initData(marcher);
+            memberController.initData(marcher, memberListView);
 
             // set the title and show the stage
             memberStage.setTitle(String.format("%s's Details", marcher));

@@ -3,7 +3,7 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -16,7 +16,7 @@ public class MemberController {
     private ImageView memberPic;
 
     @FXML
-    private Label memberName;
+    private TextField memberName;
 
     @FXML
     private TextField txtPart;
@@ -31,9 +31,11 @@ public class MemberController {
     private Button btnUpdate;
 
     private Marcher marcher;
+    private ListView<Marcher> listView;
 
     @FXML
-    void initData(Marcher marcher){
+    void initData(Marcher marcher, ListView<Marcher> listView){
+        this.listView = listView;
         this.marcher = marcher;
         memberName.setText(marcher.getName());
         txtPart.setText(marcher.getPart());
@@ -49,9 +51,11 @@ public class MemberController {
     @FXML
     void updateMember(ActionEvent event) {
         if (event.getSource() == btnUpdate){
+            this.marcher.setName(memberName.getText());
             this.marcher.setPart(txtPart.getText());
             this.marcher.setYear(txtYear.getText());
             this.marcher.setSpots(txtSpots.getText());
+            listView.refresh();
         }
     }
 

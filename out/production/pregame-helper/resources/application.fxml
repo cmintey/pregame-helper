@@ -9,6 +9,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -16,7 +17,7 @@
   <children>
     <MenuBar prefWidth="1024.0" VBox.vgrow="NEVER">
       <menus>
-        <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+        <Menu mnemonicParsing="false" text="File">
           <items>
                   <MenuItem fx:id="btnNew" mnemonicParsing="false" onAction="#createNew" text="New" />
                   <MenuItem fx:id="btnOpen" mnemonicParsing="false" onAction="#open" text="Open..." />
@@ -26,7 +27,15 @@
                   <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem fx:id="btnQuit" mnemonicParsing="false" onAction="#quitApp" text="Quit" />
           </items>
+               <accelerator>
+                  <KeyCodeCombination alt="ANY" code="F" control="UP" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator>
         </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+              <items>
+                <MenuItem fx:id="btnMenuNewMarcher" mnemonicParsing="false" onAction="#btnAction" text="New Marcher" />
+              </items>
+            </Menu>
       </menus>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
@@ -39,10 +48,10 @@
                            <contextMenu>
                               <ContextMenu>
                                 <items>
-                                    <MenuItem fx:id="btnProfile" mnemonicParsing="false" onAction="#perfRightClick" text="View Profile" />
+                                    <MenuItem fx:id="btnProfile" mnemonicParsing="false" onAction="#btnAction" text="View Profile" />
                                     <SeparatorMenuItem mnemonicParsing="false" />
-                                    <MenuItem fx:id="btnNewMarcher" mnemonicParsing="false" onAction="#perfRightClick" text="New Marcher" />
-                                    <MenuItem fx:id="btnDeleteMarcher" mnemonicParsing="false" onAction="#perfRightClick" text="Delete Marcher" />
+                                    <MenuItem fx:id="btnNewMarcher" mnemonicParsing="false" onAction="#btnAction" text="New Marcher" />
+                                    <MenuItem fx:id="btnDeleteMarcher" mnemonicParsing="false" onAction="#btnAction" text="Delete Marcher" />
                                 </items>
                               </ContextMenu>
                            </contextMenu>
@@ -51,7 +60,7 @@
                   </AnchorPane>
                   <AnchorPane style="-fx-background-color: #FFFFFF;">
                       <children>
-                          <ImageView fx:id="imgBlockM" fitHeight="743.0" fitWidth="803.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+                          <ImageView fitHeight="743.0" fitWidth="803.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                               <image>
                                   <Image url="@minnesota-golden-gophers.png" />
                               </image>
